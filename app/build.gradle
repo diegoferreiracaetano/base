@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries;
+def test = rootProject.ext.testingLibraries;
+
+android {
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.diegoferreiracaetano.base"
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$test.espresso", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //ViewModel and LiveCycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$libs.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$libs.lifecycle_version"
+
+    //Dagger
+    implementation "com.google.dagger:dagger:$libs.dagger"
+    implementation "com.google.dagger:dagger-android:$libs.dagger"
+    implementation "com.google.dagger:dagger-android-support:$libs.dagger"
+    kapt "com.google.dagger:dagger-compiler:$libs.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$libs.dagger"
+
+    //Firebase
+    implementation "com.google.firebase:firebase-core:$libs.firebaseCore"
+    implementation "com.google.firebase:firebase-database:$libs.firebaseDatabase"
+    implementation "com.google.firebase:firebase-firestore:$libs.firebaseFirestore"
+    implementation "com.google.firebase:firebase-storage:$libs.firebaseStorage"
+
+
+    implementation "com.android.support:appcompat-v7:$libs.supportLibrary"
+    implementation "com.android.support.constraint:constraint-layout:$libs.constraintLayout"
+    testImplementation "junit:junit:$test.junit"
+    androidTestImplementation "com.android.support.test:runner:$test.runner"
+}
+apply plugin: 'com.google.gms.google-services'
