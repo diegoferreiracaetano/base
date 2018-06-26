@@ -18,9 +18,8 @@ android {
         applicationId "com.diegoferreiracaetano.base"
         minSdkVersion cfg.minSdk
         targetSdkVersion cfg.targetSdk
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
+        versionCode cfg.versionCode
+        versionName cfg.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,21 +28,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$test.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$libs.supportLibrary"
+    implementation "com.android.support.constraint:constraint-layout:$libs.constraintLayout"
 
     //ViewModel and LiveCycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$libs.lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$libs.lifecycle_version"
+    implementation "android.arch.lifecycle:extensions:$libs.lifecycle_version"
 
     //Dagger
     implementation "com.google.dagger:dagger:$libs.dagger"
@@ -58,9 +59,8 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:$libs.firebaseFirestore"
     implementation "com.google.firebase:firebase-storage:$libs.firebaseStorage"
 
+    kapt "com.android.databinding:compiler:$libs.databinding"
 
-    implementation "com.android.support:appcompat-v7:$libs.supportLibrary"
-    implementation "com.android.support.constraint:constraint-layout:$libs.constraintLayout"
     testImplementation "junit:junit:$test.junit"
     androidTestImplementation "com.android.support.test:runner:$test.runner"
 }

@@ -10,7 +10,7 @@ import dagger.Module
 import dagger.Provides
 
 
-@Module
+@Module(includes = [ViewModelModule::class])
 class AppModule {
 
     @Provides
